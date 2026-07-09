@@ -360,3 +360,94 @@
   .pillars{grid-template-columns:1fr}
   .page-hero .lede{font-size:1.05rem}
 }
+
+/* =========================================================
+   MODALIDADES — SILHUETA ESTÁTICA + MOVIMENTO AO REDOR
+   ========================================================= */
+.mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.mod-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:14px 14px 26px;overflow:hidden;position:relative;
+  transition:transform .3s var(--ease),border-color .3s,background .3s;
+}
+.mod-card:hover{transform:translateY(-6px);border-color:var(--panel-2);background:var(--panel-2)}
+.mod-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--lime);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.mod-card:hover::before{transform:scaleX(1)}
+.mod-card h3{font-size:1.1rem;font-weight:700;margin:20px 0 6px;padding:0 6px}
+.mod-card p{color:var(--muted);font-size:.88rem;padding:0 6px}
+
+/* palco */
+.scene{
+  position:relative;width:100%;aspect-ratio:1/1;border-radius:8px;overflow:hidden;
+  background:radial-gradient(120% 100% at 50% 18%,#16305A 0%,#0D1B31 60%,#0A1220 100%);
+  display:flex;align-items:flex-end;justify-content:center;
+}
+
+/* halo suave atras do atleta */
+.scene::after{
+  content:"";position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+  width:72%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,255,61,.16),rgba(200,255,61,0) 70%);
+  animation:haloBreath 4.2s ease-in-out infinite;pointer-events:none;
+}
+@keyframes haloBreath{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}
+  50%{transform:translate(-50%,-50%) scale(1.1);opacity:.65}}
+
+/* anel tracejado girando ao redor */
+.ring{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);
+  width:80%;aspect-ratio:1;border-radius:50%;
+  border:1px dashed rgba(200,255,61,.34);
+  animation:ringSpin 26s linear infinite;pointer-events:none}
+.ring.two{width:92%;border-style:solid;border-color:rgba(110,140,190,.18);
+  animation:ringSpin 40s linear infinite reverse}
+@keyframes ringSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ponto que orbita o anel */
+.orbit-ring{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);
+  width:80%;aspect-ratio:1;animation:ringSpin 9s linear infinite;pointer-events:none}
+.orbit-ring i{position:absolute;top:-5px;left:50%;transform:translateX(-50%);
+  width:10px;height:10px;border-radius:50%;background:var(--lime);
+  box-shadow:0 0 16px 3px rgba(200,255,61,.6)}
+
+/* piso */
+.floor{position:absolute;left:8%;right:8%;bottom:11%;height:2px;
+  background:repeating-linear-gradient(90deg,#6B7C99 0 16px,transparent 16px 28px);
+  opacity:.45;animation:floorMove .7s linear infinite;pointer-events:none}
+@keyframes floorMove{to{background-position-x:-28px}}
+.mod-card:nth-child(2) .floor,.mod-card:nth-child(3) .floor{animation:none}
+
+/* cantoneiras */
+.tick{position:absolute;width:18px;height:18px;border:2px solid rgba(200,255,61,.5);pointer-events:none}
+.tick.tl{top:12px;left:12px;border-right:0;border-bottom:0}
+.tick.br{bottom:12px;right:12px;border-left:0;border-top:0}
+
+/* silhueta: PARADA */
+.sil{position:relative;z-index:2;height:74%;width:auto;object-fit:contain;
+  margin-bottom:11%;filter:drop-shadow(0 18px 26px rgba(0,0,0,.6))}
+.sil-shadow{position:absolute;left:50%;bottom:10.4%;transform:translateX(-50%);
+  width:46%;height:8px;border-radius:50%;background:#000;opacity:.35;filter:blur(3px);
+  animation:shadowBreath 4.2s ease-in-out infinite;pointer-events:none}
+@keyframes shadowBreath{0%,100%{opacity:.35;width:46%}50%{opacity:.24;width:40%}}
+
+/* cena geometrica do basquete (fallback ate ter imagem licenciada) */
+.scene svg{position:relative;z-index:2;width:100%;height:100%;display:block}
+.ball-obj{filter:drop-shadow(0 14px 22px rgba(0,0,0,.55))}
+.ball-body{fill:#fff}
+.rim{fill:none;stroke:#8FA3BF;stroke-width:1.4;opacity:.55}
+.seam{fill:none;stroke:#0E1A2E;stroke-width:3.4;stroke-linecap:round}
+.hoop rect{fill:none;stroke:#5D6F8E;stroke-width:2;opacity:.6}
+.hoop .inner-box{opacity:.35}
+.hoop .rim-bar{stroke:var(--lime);stroke-width:3;stroke-linecap:round;opacity:.9}
+.hoop .net-lines{fill:none;stroke:#5D6F8E;stroke-width:1.1;opacity:.45}
+.ball-shadow{fill:#000;opacity:.34}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bounceBall{0%,100%{transform:translateY(-14px)}50%{transform:translateY(24px)}}
+@keyframes bounceShadow{0%,100%{transform:scaleX(.82);opacity:.18}50%{transform:scaleX(1);opacity:.4}}
+.spin-fast{transform-origin:112px 94px;animation:spin 2.6s linear infinite}
+.bounce{animation:bounceBall 1.15s cubic-bezier(.4,0,.55,1) infinite}
+.bounce-shadow{transform-origin:112px 178px;animation:bounceShadow 1.15s cubic-bezier(.4,0,.55,1) infinite}
+.ground{stroke:#6B7C99;stroke-width:2;stroke-dasharray:16 12;opacity:.45}
+
+@media(max-width:1000px){.mod-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.mod-grid{grid-template-columns:1fr}}
