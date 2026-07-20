@@ -85,6 +85,10 @@ function entrarPainel(user) {
   loginView.hidden = true;
   panelView.hidden = false;
   navRight.hidden = false;
+  // reforço: garante a troca mesmo se o CSS antigo estiver em cache
+  loginView.style.display = "none";
+  panelView.style.display = "block";
+  navRight.style.display = "flex";
   document.getElementById("whoami").textContent = user.email;
   carregarTudo();
 }
@@ -92,6 +96,9 @@ function sairPainel() {
   panelView.hidden = true;
   navRight.hidden = true;
   loginView.hidden = false;
+  panelView.style.display = "none";
+  navRight.style.display = "none";
+  loginView.style.display = "grid";
 }
 
 // ================= ABAS =================
@@ -119,20 +126,42 @@ function carregarTudo() {
     ALUNOS.sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0));
     renderAlunos();
     renderFinanceiro();
-  });
+  }, erroLeitura);
 
   App.db.ref("pagamentos").on("value", snap => {
     PAGAMENTOS = snap.val() || {};
     renderAlunos();
     renderFinanceiro();
-  });
+  }, erroLeitura);
 
   App.db.ref("config/precos").on("value", snap => {
     PRECOS = snap.val() || { personal: 0, atleta: 0 };
     document.getElementById("precoPersonal").value = PRECOS.personal || "";
     document.getElementById("precoAtleta").value = PRECOS.atleta || "";
     renderFinanceiro();
-  });
+  }, erroLeitura);
+}
+
+// mostra um aviso no topo do painel se a leitura for bloqueada
+let avisoMostrado = false;
+function erroLeitura(err) {
+  console.error("[Painel] Erro ao ler dados:", err && err.code, err && err.message, err);
+  if (avisoMostrado) return;
+  avisoMostrado = true;
+  const main = document.getElementById("panelView");
+  const div = document.createElement("div");
+  div.className = "note";
+  div.style.margin = "0 0 20px";
+  const permissao = err && (err.code === "PERMISSION_DENIED" || /permission/i.test(err.message || ""));
+  if (permissao) {
+    div.innerHTML = "🔒 <b>Permissão negada ao ler os dados.</b> Você entrou, mas o banco está bloqueado. " +
+      "Publique as regras: Console do Firebase → Realtime Database → aba <b>Regras</b> → cole o conteúdo de <b>regras-firebase.txt</b> → <b>Publicar</b>.";
+  } else {
+    div.innerHTML = "⚠️ Não consegui carregar os dados" +
+      (err && err.code ? ` <span style='opacity:.7'>(${err.code})</span>` : "") +
+      ". Verifique sua conexão e o console (F12).";
+  }
+  main.insertBefore(div, main.firstChild);
 }
 
 // preço padrão conforme perfil (permite override por aluno em .valorMensal)
