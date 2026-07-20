@@ -69,6 +69,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .success-box p{color:var(--muted);max-width:44ch;margin:0 auto}
 
 /* ---------- login ---------- */
+[hidden]{display:none !important}
 .login-wrap{min-height:calc(100vh - 66px);display:grid;place-items:center;padding:40px 24px}
 .login-card{width:100%;max-width:400px}
 .login-card .brand{justify-content:center;margin-bottom:26px}
