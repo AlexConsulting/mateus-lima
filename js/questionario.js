@@ -75,9 +75,13 @@ async function enviar(form, perfil) {
     mostrar(secSucesso);
     form.reset();
   } catch (e) {
-    console.error(e);
+    console.error("[Questionário] Falha ao salvar:", e.code, e.message, e);
     msg.className = "form-msg err";
-    msg.textContent = "Não consegui enviar agora. Tente novamente em instantes.";
+    if (e.code === "PERMISSION_DENIED" || /permission/i.test(e.message || "")) {
+      msg.innerHTML = 'Não consegui salvar (permissão negada). <span class="hint" style="color:#ffcf9a">💡 As regras do banco precisam ser publicadas — veja regras-firebase.txt.</span>';
+    } else {
+      msg.innerHTML = `Não consegui enviar agora. Tente novamente em instantes.${e.code ? ` <span style="opacity:.7">(${e.code})</span>` : ""}`;
+    }
     btn.disabled = false;
   }
 }

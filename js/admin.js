@@ -28,20 +28,54 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
   e.preventDefault();
   const msg = document.getElementById("loginMsg");
   msg.textContent = "";
-  if (!window.App || !App.pronto) { msg.textContent = "Firebase não configurado."; return; }
+  msg.className = "form-msg err";
+
+  if (!window.App || !App.pronto) {
+    msg.innerHTML = "⚠️ Firebase não configurado. Verifique se <b>js/firebase-config.js</b> tem suas chaves e se as pastas <b>css/</b> e <b>js/</b> subiram para o servidor.";
+    return;
+  }
+
   const email = document.getElementById("loginEmail").value.trim();
   const pass  = document.getElementById("loginPass").value;
+
+  if (!email || !pass) {
+    msg.textContent = "Preencha e-mail e senha.";
+    return;
+  }
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  const btnTxt = btn.textContent;
+  btn.textContent = "Entrando…";
+
   try {
     await App.auth.signInWithEmailAndPassword(email, pass);
+    // sucesso: onAuthStateChanged assume daqui
   } catch (err) {
-    const map = {
-      "auth/invalid-credential": "E-mail ou senha incorretos.",
-      "auth/invalid-email": "E-mail inválido.",
-      "auth/user-not-found": "Usuário não encontrado.",
-      "auth/wrong-password": "Senha incorreta.",
-      "auth/too-many-requests": "Muitas tentativas. Aguarde um pouco."
+    // log completo para depuração (você vê no F12 -> Console)
+    console.error("[Login] Falha na autenticação:", err.code, err.message, err);
+
+    // mensagem amigável + dica de correção por código
+    const info = {
+      "auth/invalid-credential":     ["E-mail ou senha incorretos.", "Confira a senha. Se esqueceu, redefina em Authentication → Users → ⋮ → Redefinir senha."],
+      "auth/invalid-login-credentials": ["E-mail ou senha incorretos.", "Confira a senha ou redefina no console (Authentication → Users)."],
+      "auth/wrong-password":         ["Senha incorreta.", "Redefina a senha em Authentication → Users, se precisar."],
+      "auth/user-not-found":         ["Usuário não encontrado.", "Crie o login em Authentication → Users → Adicionar usuário."],
+      "auth/invalid-email":          ["E-mail inválido.", "Verifique se digitou o e-mail corretamente."],
+      "auth/user-disabled":          ["Usuário desativado.", "Reative o usuário no console do Firebase."],
+      "auth/too-many-requests":      ["Muitas tentativas.", "Aguarde alguns minutos antes de tentar de novo."],
+      "auth/operation-not-allowed":  ["Login por e-mail/senha desativado.", "Ative em Authentication → Sign-in method → E-mail/senha."],
+      "auth/unauthorized-domain":    ["Domínio não autorizado.", "Adicione o domínio deste site em Authentication → Settings → Domínios autorizados."],
+      "auth/network-request-failed": ["Falha de conexão.", "Verifique a internet e se o site está no ar (https)."],
+      "auth/api-key-not-valid":      ["Chave de API inválida.", "Revise a apiKey em js/firebase-config.js."],
+      "auth/configuration-not-found":["Configuração não encontrada.", "Ative o método E-mail/senha em Authentication → Sign-in method."]
     };
-    msg.textContent = map[err.code] || "Não foi possível entrar.";
+    const [texto, dica] = info[err.code] || ["Não foi possível entrar.", "Veja o console (F12) para o erro completo."];
+    const codigo = err.code ? ` <span style="opacity:.7">(${err.code})</span>` : "";
+    msg.innerHTML = `${texto}${codigo}<br><span class="hint" style="color:#ffcf9a">💡 ${dica}</span>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = btnTxt;
   }
 });
 
