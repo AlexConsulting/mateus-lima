@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Painel Admin — Mateus Lima</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0A1220" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+
+<header class="app-nav">
+  <div class="app-nav-inner">
+    <a href="index.html" class="brand"><span class="mark">ML</span><span>Mateus Lima<small>Painel Admin</small></span></a>
+    <div class="right" id="navRight" hidden>
+      <span class="who" id="whoami"></span>
+      <button class="btn-sm" id="btnSair">Sair</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ LOGIN ============ -->
+<section class="login-wrap" id="loginView">
+  <div class="panel login-card">
+    <div class="brand" style="margin-bottom:22px;justify-content:center"><span class="mark">ML</span><span>Área restrita</span></div>
+    <div class="note info" id="cfgWarn" hidden>Firebase ainda não configurado. Edite <b>js/firebase-config.js</b> com as chaves do seu projeto.</div>
+    <form id="loginForm">
+      <div class="field">
+        <label>E-mail</label>
+        <input type="email" id="loginEmail" required placeholder="voce@email.com" autocomplete="username" />
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="loginPass" required placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Entrar</button>
+      </div>
+      <span class="form-msg err" id="loginMsg" style="display:block;margin-top:12px"></span>
+    </form>
+    <p class="hint" style="margin-top:18px">Acesso exclusivo do Mateus. O cadastro do login é feito no console do Firebase (Authentication).</p>
+  </div>
+</section>
+
+<!-- ============ PAINEL ============ -->
+<main class="app-main" id="panelView" hidden>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="alunos">Alunos</button>
+    <button class="tab" data-tab="financeiro">Financeiro</button>
+    <button class="tab" data-tab="config">Configurações</button>
+  </div>
+
+  <!-- ---------- ABA ALUNOS ---------- -->
+  <section class="tabpane active" id="tab-alunos">
+    <div class="kpis" id="kpisAlunos">
+      <div class="kpi"><div class="k">Total de alunos</div><div class="v" id="kpiTotal">–</div></div>
+      <div class="kpi"><div class="k">Personal</div><div class="v" id="kpiPersonal">–</div></div>
+      <div class="kpi"><div class="k">Atletas</div><div class="v" id="kpiAtletas">–</div></div>
+      <div class="kpi"><div class="k">Novos (7 dias)</div><div class="v lime" id="kpiNovos">–</div></div>
+    </div>
+
+    <div class="toolbar">
+      <div class="seg" id="segPerfil">
+        <button class="active" data-f="todos">Todos</button>
+        <button data-f="personal">Personal</button>
+        <button data-f="atleta">Atletas</button>
+      </div>
+      <input type="search" id="busca" placeholder="Buscar por nome, e-mail…" />
+      <div class="spacer"></div>
+      <button class="btn-sm" id="btnExport">⬇ Exportar CSV</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="tblAlunos">
+        <thead><tr>
+          <th>Nome</th><th>Perfil</th><th>Contato</th><th>Objetivo</th><th>Mês atual</th><th>Recebido em</th><th></th>
+        </tr></thead>
+        <tbody><tr><td colspan="7" class="center-load"><span class="loader"></span> Carregando…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ---------- ABA FINANCEIRO ---------- -->
+  <section class="tabpane" id="tab-financeiro">
+    <div class="kpis">
+      <div class="kpi"><div class="k">Recebido no mês</div><div class="v lime" id="finRecebido">–</div></div>
+      <div class="kpi"><div class="k">A receber</div><div class="v warn" id="finAReceber">–</div></div>
+      <div class="kpi"><div class="k">Previsto (total)</div><div class="v" id="finPrevisto">–</div></div>
+      <div class="kpi"><div class="k">Inadimplentes</div><div class="v" id="finInadimplentes">–</div></div>
+    </div>
+
+    <div class="note" id="finAlertas" hidden></div>
+
+    <div class="toolbar">
+      <label class="who" style="display:flex;align-items:center;gap:8px">Mês de referência
+        <input type="month" id="finMes" style="width:auto" />
+      </label>
+      <div class="spacer"></div>
+      <span class="who" id="finResumoMes"></span>
+    </div>
+
+    <div class="table-wrap">
+      <table id="tblFin">
+        <thead><tr>
+          <th>Aluno</th><th>Perfil</th><th>Vence dia</th><th>Valor</th><th>Status</th><th></th>
+        </tr></thead>
+        <tbody><tr><td colspan="6" class="center-load"><span class="loader"></span> Carregando…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ---------- ABA CONFIG ---------- -->
+  <section class="tabpane" id="tab-config">
+    <div class="panel">
+      <h2 style="font-family:'Archivo';font-weight:700;font-size:1.2rem;margin-bottom:6px">Valores cobrados</h2>
+      <p class="hint" style="margin-bottom:22px">Estes valores são usados como padrão no controle financeiro de cada aluno. Você pode ajustar o valor individual de um aluno na ficha dele.</p>
+      <div class="price-row">
+        <div class="field">
+          <label>Mensalidade — Personal</label>
+          <div class="prefix-input"><span>R$</span><input type="number" id="precoPersonal" min="0" step="0.01" placeholder="0,00" /></div>
+        </div>
+        <div class="field">
+          <label>Consultoria — Atletas</label>
+          <div class="prefix-input"><span>R$</span><input type="number" id="precoAtleta" min="0" step="0.01" placeholder="0,00" /></div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="btnSalvarPrecos">Salvar valores</button>
+        <span class="form-msg" id="cfgMsg"></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 style="font-family:'Archivo';font-weight:700;font-size:1.2rem;margin-bottom:6px">Sobre a segurança</h2>
+      <p class="hint">O acesso a este painel é protegido pelo <b>Firebase Authentication</b>. A leitura dos dados dos alunos só é liberada para o seu login. Para trocar a senha ou criar novos acessos, use o console do Firebase → Authentication.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ MODAL: FICHA DO ALUNO ============ -->
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="mdNome">—</h2>
+        <div id="mdBadges" style="margin-top:8px"></div>
+      </div>
+      <button class="icon-btn" id="mdClose" aria-label="Fechar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="modal-body" id="mdBody"></div>
+  </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
