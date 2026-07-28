@@ -135,8 +135,13 @@ function carregarTudo() {
   }, erroLeitura);
 
   App.db.ref("config/precos").on("value", snap => {
-    PRECOS = snap.val() || { personal: 0, atleta: 0 };
-    document.getElementById("precoPersonal").value = PRECOS.personal || "";
+    PRECOS = snap.val() || {};
+    const f = PRECOS.personalFaixas || {};
+    // compatibilidade: se existia só "personal" (valor antigo), usa como faixa1
+    document.getElementById("precoFaixa1").value = f.faixa1 || PRECOS.personal || "";
+    document.getElementById("precoFaixa2").value = f.faixa2 || "";
+    document.getElementById("precoFaixa3").value = f.faixa3 || "";
+    document.getElementById("precoFaixa4").value = f.faixa4 || "";
     document.getElementById("precoAtleta").value = PRECOS.atleta || "";
     renderFinanceiro();
   }, erroLeitura);
@@ -165,9 +170,33 @@ function erroLeitura(err) {
 }
 
 // preço padrão conforme perfil (permite override por aluno em .valorMensal)
+// Faixa de preço do personal conforme dias/semana:
+// até 2 dias -> faixa1 | 3 dias -> faixa2 | 4 dias -> faixa3 | 5+ dias -> faixa4
+function faixaPorDias(dias) {
+  const d = parseInt(dias, 10) || 0;
+  if (d >= 5) return "faixa4";
+  if (d === 4) return "faixa3";
+  if (d === 3) return "faixa2";
+  return "faixa1";              // até 2 dias (inclui 1, 2 e vazio)
+}
+function rotuloFaixa(chave) {
+  return {
+    faixa1: "até 2 dias/semana",
+    faixa2: "3 dias/semana",
+    faixa3: "4 dias/semana",
+    faixa4: "5+ dias/semana"
+  }[chave] || "";
+}
+
+// preço do aluno: 1) override individual  2) faixa por dias (personal)  3) valor único (atleta)
 function valorDoAluno(a) {
   if (a.valorMensal != null && a.valorMensal !== "") return Number(a.valorMensal);
-  return Number(PRECOS[a.perfil] || 0);
+  if (a.perfil === "personal") {
+    const faixas = PRECOS.personalFaixas || {};
+    const chave = faixaPorDias(a.dias_semana);
+    return Number(faixas[chave] || 0);
+  }
+  return Number(PRECOS.atleta || 0);
 }
 function diaVenc(a) {
   return a.dia_pagamento || "—";
@@ -287,11 +316,21 @@ function abrirFicha(ref) {
     html += `<div class="modal-group"><h3>${esc(g.titulo)}</h3>${linhas}</div>`;
   });
 
-  // valor individual (override)
+  // valor individual (override) — mostra a faixa aplicada automaticamente
+  let infoFaixa = "";
+  if (perfil === "personal") {
+    const chave = faixaPorDias(a.dias_semana);
+    const auto = (PRECOS.personalFaixas || {})[chave] || 0;
+    infoFaixa = `Faixa automática: <b>${rotuloFaixa(chave)}</b> → ${moeda(auto)} (aluno respondeu ${esc(a.dias_semana || "—")} dia(s)/semana)`;
+  } else {
+    infoFaixa = `Valor padrão da consultoria: ${moeda(PRECOS.atleta || 0)}`;
+  }
+  const autoValor = valorDoAluno(Object.assign({}, a, { valorMensal: null }));
   html += `<div class="modal-group"><h3>💳 Financeiro do aluno</h3>
-    <div class="qa"><div class="q">Valor mensal (deixe vazio para usar o padrão ${moeda(PRECOS[perfil] || 0)})</div>
+    <div class="qa"><div class="a" style="color:var(--muted)">${infoFaixa}</div></div>
+    <div class="qa"><div class="q">Valor mensal — deixe vazio para usar o automático (${moeda(autoValor)})</div>
       <div class="prefix-input" style="max-width:220px;margin-top:6px"><span>R$</span>
-        <input type="number" id="mdValor" min="0" step="0.01" value="${a.valorMensal != null ? a.valorMensal : ""}" placeholder="${PRECOS[perfil] || 0}"></div>
+        <input type="number" id="mdValor" min="0" step="0.01" value="${a.valorMensal != null ? a.valorMensal : ""}" placeholder="${autoValor}"></div>
     </div>
     <div class="qa"><div class="q">Histórico de pagamentos (clique para alternar pago/pendente)</div>
       <div class="pay-hist" id="mdPayHist"></div>
@@ -424,7 +463,7 @@ function renderFinanceiro() {
     <td><span class="name">${esc(a.nome)}</span></td>
     <td><span class="pill ${a.perfil}">${a.perfil === "personal" ? "Personal" : "Atleta"}</span></td>
     <td>dia ${esc(a.dia_pagamento || "—")}</td>
-    <td>${moeda(valor)}</td>
+    <td>${moeda(valor)}${a.perfil === "personal" && (a.valorMensal == null || a.valorMensal === "") ? `<br><span class="hint">${esc(rotuloFaixa(faixaPorDias(a.dias_semana)))}</span>` : (a.valorMensal != null && a.valorMensal !== "" ? `<br><span class="hint">valor manual</span>` : "")}</td>
     <td>${pillStatus(st)}</td>
     <td><button class="btn-sm ${pago ? "" : "solid"}" data-toggle="${a.id}">${pago ? "Desmarcar" : "Marcar pago"}</button></td>
   </tr>`).join("");
@@ -441,9 +480,15 @@ function renderFinanceiro() {
 // ================= CONFIG =================
 document.getElementById("btnSalvarPrecos").addEventListener("click", () => {
   const msg = document.getElementById("cfgMsg");
+  const num = id => Number(document.getElementById(id).value) || 0;
   const dados = {
-    personal: Number(document.getElementById("precoPersonal").value) || 0,
-    atleta: Number(document.getElementById("precoAtleta").value) || 0
+    personalFaixas: {
+      faixa1: num("precoFaixa1"),
+      faixa2: num("precoFaixa2"),
+      faixa3: num("precoFaixa3"),
+      faixa4: num("precoFaixa4")
+    },
+    atleta: num("precoAtleta")
   };
   App.db.ref("config/precos").set(dados).then(() => {
     msg.className = "form-msg ok"; msg.textContent = "Valores salvos!";
