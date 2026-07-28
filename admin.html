@@ -119,16 +119,37 @@
   <section class="tabpane" id="tab-config">
     <div class="panel">
       <h2 style="font-family:'Archivo';font-weight:700;font-size:1.2rem;margin-bottom:6px">Valores cobrados</h2>
-      <p class="hint" style="margin-bottom:22px">Estes valores são usados como padrão no controle financeiro de cada aluno. Você pode ajustar o valor individual de um aluno na ficha dele.</p>
+      <p class="hint" style="margin-bottom:22px">O valor do <b>personal</b> é definido pela quantidade de dias/semana que o aluno respondeu no questionário — o sistema aplica a faixa automaticamente. Você ainda pode ajustar o valor individual de um aluno na ficha dele.</p>
+
+      <h3 style="font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Personal — por faixa de dias</h3>
+      <div class="price-row" style="margin-bottom:16px">
+        <div class="field">
+          <label>Até 2 dias/semana</label>
+          <div class="prefix-input"><span>R$</span><input type="number" id="precoFaixa1" min="0" step="0.01" placeholder="0,00" /></div>
+        </div>
+        <div class="field">
+          <label>3 dias/semana</label>
+          <div class="prefix-input"><span>R$</span><input type="number" id="precoFaixa2" min="0" step="0.01" placeholder="0,00" /></div>
+        </div>
+      </div>
+      <div class="price-row" style="margin-bottom:24px">
+        <div class="field">
+          <label>4 dias/semana</label>
+          <div class="prefix-input"><span>R$</span><input type="number" id="precoFaixa3" min="0" step="0.01" placeholder="0,00" /></div>
+        </div>
+        <div class="field">
+          <label>5 ou mais dias/semana</label>
+          <div class="prefix-input"><span>R$</span><input type="number" id="precoFaixa4" min="0" step="0.01" placeholder="0,00" /></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Consultoria — Atletas</h3>
       <div class="price-row">
         <div class="field">
-          <label>Mensalidade — Personal</label>
-          <div class="prefix-input"><span>R$</span><input type="number" id="precoPersonal" min="0" step="0.01" placeholder="0,00" /></div>
-        </div>
-        <div class="field">
-          <label>Consultoria — Atletas</label>
+          <label>Valor único da consultoria</label>
           <div class="prefix-input"><span>R$</span><input type="number" id="precoAtleta" min="0" step="0.01" placeholder="0,00" /></div>
         </div>
+        <div class="field" aria-hidden="true"></div>
       </div>
       <div class="form-actions">
         <button class="btn btn-primary" id="btnSalvarPrecos">Salvar valores</button>
