@@ -142,6 +142,11 @@ function carregarTudo() {
     document.getElementById("precoFaixa2").value = f.faixa2 || "";
     document.getElementById("precoFaixa3").value = f.faixa3 || "";
     document.getElementById("precoFaixa4").value = f.faixa4 || "";
+    const fd = PRECOS.personalDuplaFaixas || {};
+    document.getElementById("precoDuplaFaixa1").value = fd.faixa1 || "";
+    document.getElementById("precoDuplaFaixa2").value = fd.faixa2 || "";
+    document.getElementById("precoDuplaFaixa3").value = fd.faixa3 || "";
+    document.getElementById("precoDuplaFaixa4").value = fd.faixa4 || "";
     document.getElementById("precoAtleta").value = PRECOS.atleta || "";
     renderFinanceiro();
   }, erroLeitura);
@@ -487,6 +492,12 @@ document.getElementById("btnSalvarPrecos").addEventListener("click", () => {
       faixa2: num("precoFaixa2"),
       faixa3: num("precoFaixa3"),
       faixa4: num("precoFaixa4")
+    },
+    personalDuplaFaixas: {
+      faixa1: num("precoDuplaFaixa1"),
+      faixa2: num("precoDuplaFaixa2"),
+      faixa3: num("precoDuplaFaixa3"),
+      faixa4: num("precoDuplaFaixa4")
     },
     atleta: num("precoAtleta")
   };
