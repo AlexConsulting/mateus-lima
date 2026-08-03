@@ -145,6 +145,15 @@
         <label>Quantos dias por semana consegue treinar? <span class="req">*</span></label>
         <select data-norm="raw" name="dias_semana" required><option value="">Selecione…</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select>
       </div>
+      <!-- CAMPO ADICIONADO PARA SUPORTE À MODALIDADE DE TREINO -->
+      <div class="field">
+        <label>Modalidade do treino <span class="req">*</span></label>
+        <select data-norm="title" name="modalidade" required>
+          <option value="">Selecione…</option>
+          <option value="Individual">Individual</option>
+          <option value="Em Dupla">Em Dupla</option>
+        </select>
+      </div>
       <div class="field">
         <label>Quanto tempo você tem disponível por treino?</label>
         <input type="text" data-norm="title" name="tempo_treino" placeholder="ex: 1 hora" />
