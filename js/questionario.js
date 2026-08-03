@@ -28,7 +28,9 @@ function coletar(form) {
   const dados = {};
   form.querySelectorAll("[name]").forEach(el => {
     const norm = el.dataset.norm || "title";
-    dados[el.name] = padronizar(el.value, norm);
+    // Garante a leitura correta tanto de inputs quanto de selects (como a modalidade)
+    const valorCampo = el.type === "select-one" ? el.value : el.value;
+    dados[el.name] = padronizar(valorCampo, norm);
   });
   return dados;
 }
@@ -62,6 +64,14 @@ async function enviar(form, perfil) {
 
   const registro = coletar(form);
   registro.perfil = perfil;
+  
+  // Assegura que o campo modalidade venha preenchido para o personal (caso venha vazio no atleta, define padrão)
+  if (perfil === "personal" && !registro.modalidade) {
+    registro.modalidade = "Individual";
+  } else if (perfil === "atleta") {
+    registro.modalidade = "Atleta";
+  }
+
   registro.criadoEm = Date.now();
   registro.criadoEmISO = new Date().toISOString();
   registro.status = "novo";            // novo | ativo | inativo (o admin ajusta)

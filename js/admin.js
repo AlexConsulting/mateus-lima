@@ -1,4 +1,4 @@
-const LABELS = {"personal": [{"titulo": "👤 Dados pessoais", "campos": [{"key": "nome", "label": "Nome completo"}, {"key": "celular", "label": "Celular"}, {"key": "email", "label": "E-mail"}]}, {"titulo": "📊 Dados físicos", "campos": [{"key": "idade", "label": "Idade"}, {"key": "altura", "label": "Altura"}, {"key": "peso", "label": "Peso atual"}, {"key": "profissao", "label": "Profissão"}]}, {"titulo": "🏃 Perfil físico e estilo de vida", "campos": [{"key": "atividade_atual", "label": "Você pratica alguma atividade física atualmente? Se sim, qual(is)?"}, {"key": "condicionamento", "label": "Como classificaria seu condicionamento físico hoje?"}, {"key": "pontos_fortes", "label": "Quais você considera seus principais pontos fortes fisicamente?"}, {"key": "pontos_melhorar", "label": "Quais pontos você sente que precisa melhorar?"}]}, {"titulo": "🏥 Saúde e histórico", "campos": [{"key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?"}, {"key": "dor", "label": "Sente alguma dor ou desconforto atualmente?"}, {"key": "cirurgia", "label": "Já realizou alguma cirurgia?"}, {"key": "problema_saude", "label": "Possui algum problema de saúde diagnosticado?"}, {"key": "medicamento", "label": "Faz uso de algum medicamento contínuo?"}, {"key": "restricao", "label": "Possui alguma restrição médica para exercícios físicos?"}]}, {"titulo": "🏋️ Rotina e treino", "campos": [{"key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz e há quanto tempo?"}, {"key": "dias_semana", "label": "Quantos dias por semana consegue treinar?"}, {"key": "tempo_treino", "label": "Quanto tempo você tem disponível por treino?"}, {"key": "local_treino", "label": "Onde pretende treinar?"}]}, {"titulo": "🥗 Hábitos", "campos": [{"key": "alimentacao", "label": "Como está sua alimentação hoje? Está em dieta?"}, {"key": "refeicoes", "label": "Quantas refeições faz por dia, em média?"}, {"key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?"}, {"key": "sono_qualidade", "label": "Como avalia sua qualidade de sono?"}, {"key": "agua", "label": "Quantos litros de água costuma beber por dia?"}, {"key": "alcool", "label": "Consome bebidas alcoólicas? Com qual frequência?"}, {"key": "nicotina", "label": "Você fuma ou utiliza algum produto com nicotina?"}]}, {"titulo": "🎯 Objetivos", "campos": [{"key": "objetivo", "label": "Qual seu principal objetivo com o treino?"}, {"key": "meta", "label": "Existe alguma meta específica que deseja alcançar?"}]}, {"titulo": "💳 Organização", "campos": [{"key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal"}]}, {"titulo": "📝 Observações", "campos": [{"key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?"}]}], "atleta": [{"titulo": "👤 Dados pessoais", "campos": [{"key": "nome", "label": "Nome completo"}, {"key": "celular", "label": "Celular"}, {"key": "email", "label": "E-mail"}]}, {"titulo": "📊 Dados físicos", "campos": [{"key": "idade", "label": "Idade"}, {"key": "altura", "label": "Altura"}, {"key": "peso", "label": "Peso atual"}, {"key": "posicao", "label": "Posição que joga"}]}, {"titulo": "⚽ Perfil como atleta", "campos": [{"key": "qual_tecnicas", "label": "Quais você considera suas principais qualidades técnicas?"}, {"key": "qual_fisicas", "label": "Quais suas principais qualidades físicas?"}, {"key": "melhorar_tecnico", "label": "Quais pontos técnicos você acha que precisa melhorar?"}, {"key": "melhorar_fisico", "label": "Quais pontos físicos você sente que precisa evoluir?"}]}, {"titulo": "🏥 Saúde e histórico", "campos": [{"key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?"}, {"key": "dor", "label": "Sente alguma dor atualmente?"}, {"key": "cirurgia", "label": "Já fez cirurgia?"}, {"key": "problema_saude", "label": "Possui algum problema de saúde ou limitação?"}]}, {"titulo": "🏋️ Rotina e treino", "campos": [{"key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz?"}, {"key": "treinos_extras", "label": "Além dos dois dias de personal, consegue treinar nos outros dias? Se sim, quantos?"}]}, {"titulo": "🥗 Hábitos", "campos": [{"key": "alimentacao", "label": "Como está sua alimentação hoje?"}, {"key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?"}]}, {"titulo": "🎯 Objetivo", "campos": [{"key": "objetivo", "label": "Qual seu principal objetivo com o treino?"}]}, {"titulo": "💳 Organização", "campos": [{"key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal"}]}, {"titulo": "📝 Observações", "campos": [{"key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?"}]}]};
+const LABELS = {"personal": [{"titulo": "👤 Dados pessoais", "campos": [{"key": "nome", "label": "Nome completo"}, {"key": "celular", "label": "Celular"}, {"key": "email", "label": "E-mail"}]}, {"titulo": "📊 Dados físicos", "campos": [{"key": "modalidade", "label": "Modalidade"}, {"key": "idade", "label": "Idade"}, {"key": "altura", "label": "Altura"}, {"key": "peso", "label": "Peso atual"}, {"key": "profissao", "label": "Profissão"}]}, {"titulo": "🏃 Perfil físico e estilo de vida", "campos": [{"key": "atividade_atual", "label": "Você pratica alguma atividade física atualmente? Se sim, qual(is)?"}, {"key": "condicionamento", "label": "Como classificaria seu condicionamento físico hoje?"}, {"key": "pontos_fortes", "label": "Quais você considera seus principais pontos fortes fisicamente?"}, {"key": "pontos_melhorar", "label": "Quais pontos você sente que precisa melhorar?"}]}, {"titulo": "🏥 Saúde e histórico", "campos": [{"key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?"}, {"key": "dor", "label": "Sente alguma dor ou desconforto atualmente?"}, {"key": "cirurgia", "label": "Já realizou alguma cirurgia?"}, {"key": "problema_saude", "label": "Possui algum problema de saúde diagnosticado?"}, {"key": "medicamento", "label": "Faz uso de algum medicamento contínuo?"}, {"key": "restricao", "label": "Possui alguma restrição médica para exercícios físicos?"}]}, {"titulo": "🏋️ Rotina e treino", "campos": [{"key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz e há quanto tempo?"}, {"key": "dias_semana", "label": "Quantos dias por semana consegue treinar?"}, {"key": "tempo_treino", "label": "Quanto tempo você tem disponível por treino?"}, {"key": "local_treino", "label": "Onde pretende treinar?"}]}, {"titulo": "🥗 Hábitos", "campos": [{"key": "alimentacao", "label": "Como está sua alimentação hoje? Está em dieta?"}, {"key": "refeicoes", "label": "Quantas refeições faz por dia, em média?"}, {"key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?"}, {"key": "sono_qualidade", "label": "Como avalia sua qualidade de sono?"}, {"key": "agua", "label": "Quantos litros de água costuma beber por dia?"}, {"key": "alcool", "label": "Consome bebidas alcoólicas? Com qual frequência?"}, {"key": "nicotina", "label": "Você fuma ou utiliza algum produto com nicotina?"}]}, {"titulo": "🎯 Objetivos", "campos": [{"key": "objetivo", "label": "Qual seu principal objetivo com o treino?"}, {"key": "meta", "label": "Existe alguma meta específica que deseja alcançar?"}]}, {"titulo": "💳 Organização", "campos": [{"key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal"}]}, {"titulo": "📝 Observações", "campos": [{"key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?"}]}], "atleta": [{"titulo": "👤 Dados pessoais", "campos": [{"key": "nome", "label": "Nome completo"}, {"key": "celular", "label": "Celular"}, {"key": "email", "label": "E-mail"}]}, {"titulo": "📊 Dados físicos", "campos": [{"key": "idade", "label": "Idade"}, {"key": "altura", "label": "Altura"}, {"key": "peso", "label": "Peso atual"}, {"key": "posicao", "label": "Posição que joga"}]}, {"titulo": "⚽ Perfil como atleta", "campos": [{"key": "qual_tecnicas", "label": "Quais você considera suas principais qualidades técnicas?"}, {"key": "qual_fisicas", "label": "Quais suas principais qualidades físicas?"}, {"key": "melhorar_tecnico", "label": "Quais pontos técnicos você acha que precisa melhorar?"}, {"key": "melhorar_fisico", "label": "Quais pontos físicos você sente que precisa evoluir?"}]}, {"titulo": "🏥 Saúde e histórico", "campos": [{"key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?"}, {"key": "dor", "label": "Sente alguma dor atualmente?"}, {"key": "cirurgia", "label": "Já fez cirurgia?"}, {"key": "problema_saude", "label": "Possui algum problema de saúde ou limitação?"}]}, {"titulo": "🏋️ Rotina e treino", "campos": [{"key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz?"}, {"key": "treinos_extras", "label": "Além dos dois dias de personal, consegue treinar nos outros dias? Se sim, quantos?"}]}, {"titulo": "🥗 Hábitos", "campos": [{"key": "alimentacao", "label": "Como está sua alimentação hoje?"}, {"key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?"}]}, {"titulo": "🎯 Objetivo", "campos": [{"key": "objetivo", "label": "Qual seu principal objetivo com o treino?"}]}, {"titulo": "💳 Organização", "campos": [{"key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal"}]}, {"titulo": "📝 Observações", "campos": [{"key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?"}]}]};
 // =============================================================
 //  admin.js — login (Firebase Auth) + painel completo
 // =============================================================
@@ -57,17 +57,17 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
 
     // mensagem amigável + dica de correção por código
     const info = {
-      "auth/invalid-credential":     ["E-mail ou senha incorretos.", "Confira a senha. Se esqueceu, redefina em Authentication → Users → ⋮ → Redefinir senha."],
+      "auth/invalid-credential":      ["E-mail ou senha incorretos.", "Confira a senha. Se esqueceu, redefina em Authentication → Users → ⋮ → Redefinir senha."],
       "auth/invalid-login-credentials": ["E-mail ou senha incorretos.", "Confira a senha ou redefina no console (Authentication → Users)."],
-      "auth/wrong-password":         ["Senha incorreta.", "Redefina a senha em Authentication → Users, se precisar."],
-      "auth/user-not-found":         ["Usuário não encontrado.", "Crie o login em Authentication → Users → Adicionar usuário."],
-      "auth/invalid-email":          ["E-mail inválido.", "Verifique se digitou o e-mail corretamente."],
-      "auth/user-disabled":          ["Usuário desativado.", "Reative o usuário no console do Firebase."],
-      "auth/too-many-requests":      ["Muitas tentativas.", "Aguarde alguns minutos antes de tentar de novo."],
-      "auth/operation-not-allowed":  ["Login por e-mail/senha desativado.", "Ative em Authentication → Sign-in method → E-mail/senha."],
-      "auth/unauthorized-domain":    ["Domínio não autorizado.", "Adicione o domínio deste site em Authentication → Settings → Domínios autorizados."],
-      "auth/network-request-failed": ["Falha de conexão.", "Verifique a internet e se o site está no ar (https)."],
-      "auth/api-key-not-valid":      ["Chave de API inválida.", "Revise a apiKey em js/firebase-config.js."],
+      "auth/wrong-password":          ["Senha incorreta.", "Redefina a senha em Authentication → Users, se precisar."],
+      "auth/user-not-found":          ["Usuário não encontrado.", "Crie o login em Authentication → Users → Adicionar usuário."],
+      "auth/invalid-email":           ["E-mail inválido.", "Verifique se digitou o e-mail corretamente."],
+      "auth/user-disabled":           ["Usuário desativado.", "Reative o usuário no console do Firebase."],
+      "auth/too-many-requests":       ["Muitas tentativas.", "Aguarde alguns minutos antes de tentar de novo."],
+      "auth/operation-not-allowed":   ["Login por e-mail/senha desativado.", "Ative em Authentication → Sign-in method → E-mail/senha."],
+      "auth/unauthorized-domain":     ["Domínio não autorizado.", "Adicione o domínio deste site em Authentication → Settings → Domínios autorizados."],
+      "auth/network-request-failed":  ["Falha de conexão.", "Verifique a internet e se o site está no ar (https)."],
+      "auth/api-key-not-valid":       ["Chave de API inválida.", "Revise a apiKey em js/firebase-config.js."],
       "auth/configuration-not-found":["Configuração não encontrada.", "Ative o método E-mail/senha em Authentication → Sign-in method."]
     };
     const [texto, dica] = info[err.code] || ["Não foi possível entrar.", "Veja o console (F12) para o erro completo."];
@@ -315,8 +315,18 @@ function abrirFicha(ref) {
     const linhas = g.campos.map(c => {
       const val = a[c.key];
       const blank = (val == null || val === "");
+      
+      // Renderiza inputs editáveis para cada campo da ficha do aluno
+      if (c.key === "modalidade" && perfil === "personal") {
+        return `<div class="qa"><div class="q">${esc(c.label)}</div>
+          <div style="margin-top:4px"><select class="md-input" data-edit-key="${c.key}" style="width:100%;padding:8px;background:var(--input-bg, #1e222b);color:inherit;border:1px solid var(--border, #333);border-radius:6px">
+            <option value="Individual" ${val === "Individual" ? "selected" : ""}>Individual (1 aluno)</option>
+            <option value="Dupla" ${val === "Dupla" ? "selected" : ""}>Dupla (2 alunos)</option>
+          </select></div></div>`;
+      }
+
       return `<div class="qa"><div class="q">${esc(c.label)}</div>
-        <div class="a ${blank ? "blank" : ""}">${blank ? "— não informado —" : esc(val)}</div></div>`;
+        <div style="margin-top:4px"><input type="text" class="md-input" data-edit-key="${c.key}" value="${esc(val != null ? val : "")}" placeholder="— não informado —" style="width:100%;padding:8px;background:var(--input-bg, #1e222b);color:inherit;border:1px solid var(--border, #333);border-radius:6px"></div></div>`;
     }).join("");
     html += `<div class="modal-group"><h3>${esc(g.titulo)}</h3>${linhas}</div>`;
   });
@@ -405,13 +415,24 @@ function salvarFicha(perfil, id) {
   const valor = document.getElementById("mdValor").value;
   const nota = document.getElementById("mdNota").value;
   const msg = document.getElementById("mdMsg");
+  
   const up = {};
+  
+  // Coleta todos os campos editáveis da ficha dinamicamente
+  document.querySelectorAll(".md-input").forEach(input => {
+    const key = input.dataset.editKey;
+    if (key) {
+      up[`alunos/${perfil}/${id}/${key}`] = input.value;
+    }
+  });
+
   up[`alunos/${perfil}/${id}/valorMensal`] = valor === "" ? null : Number(valor);
+
   Promise.all([
     App.db.ref().update(up),
     App.db.ref("notas/" + id).set({ texto: nota, atualizadoEm: new Date().toISOString() })
   ]).then(() => {
-    msg.className = "form-msg ok"; msg.textContent = "Salvo!";
+    msg.className = "form-msg ok"; msg.textContent = "Salvo com sucesso!";
     setTimeout(() => msg.textContent = "", 1600);
   }).catch(() => { msg.className = "form-msg err"; msg.textContent = "Erro ao salvar."; });
 }
