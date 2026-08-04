@@ -1,4 +1,155 @@
-const LABELS = {"personal": [{"titulo": "👤 Dados pessoais", "campos": [{"key": "nome", "label": "Nome completo"}, {"key": "celular", "label": "Celular"}, {"key": "email", "label": "E-mail"}]}, {"titulo": "📊 Dados físicos", "campos": [{"key": "modalidade", "label": "Modalidade"}, {"key": "idade", "label": "Idade"}, {"key": "altura", "label": "Altura"}, {"key": "peso", "label": "Peso atual"}, {"key": "profissao", "label": "Profissão"}]}, {"titulo": "🏃 Perfil físico e estilo de vida", "campos": [{"key": "atividade_atual", "label": "Você pratica alguma atividade física atualmente? Se sim, qual(is)?"}, {"key": "condicionamento", "label": "Como classificaria seu condicionamento físico hoje?"}, {"key": "pontos_fortes", "label": "Quais você considera seus principais pontos fortes fisicamente?"}, {"key": "pontos_melhorar", "label": "Quais pontos você sente que precisa melhorar?"}]}, {"titulo": "🏥 Saúde e histórico", "campos": [{"key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?"}, {"key": "dor", "label": "Sente alguma dor ou desconforto atualmente?"}, {"key": "cirurgia", "label": "Já realizou alguma cirurgia?"}, {"key": "problema_saude", "label": "Possui algum problema de saúde diagnosticado?"}, {"key": "medicamento", "label": "Faz uso de algum medicamento contínuo?"}, {"key": "restricao", "label": "Possui alguma restrição médica para exercícios físicos?"}]}, {"titulo": "🏋️ Rotina e treino", "campos": [{"key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz e há quanto tempo?"}, {"key": "dias_semana", "label": "Quantos dias por semana consegue treinar?"}, {"key": "tempo_treino", "label": "Quanto tempo você tem disponível por treino?"}, {"key": "local_treino", "label": "Onde pretende treinar?"}]}, {"titulo": "🥗 Hábitos", "campos": [{"key": "alimentacao", "label": "Como está sua alimentação hoje? Está em dieta?"}, {"key": "refeicoes", "label": "Quantas refeições faz por dia, em média?"}, {"key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?"}, {"key": "sono_qualidade", "label": "Como avalia sua qualidade de sono?"}, {"key": "agua", "label": "Quantos litros de água costuma beber por dia?"}, {"key": "alcool", "label": "Consome bebidas alcoólicas? Com qual frequência?"}, {"key": "nicotina", "label": "Você fuma ou utiliza algum produto com nicotina?"}]}, {"titulo": "🎯 Objetivos", "campos": [{"key": "objetivo", "label": "Qual seu principal objetivo com o treino?"}, {"key": "meta", "label": "Existe alguma meta específica que deseja alcançar?"}]}, {"titulo": "💳 Organização", "campos": [{"key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal"}]}, {"titulo": "📝 Observações", "campos": [{"key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?"}]}], "atleta": [{"titulo": "👤 Dados pessoais", "campos": [{"key": "nome", "label": "Nome completo"}, {"key": "celular", "label": "Celular"}, {"key": "email", "label": "E-mail"}]}, {"titulo": "📊 Dados físicos", "campos": [{"key": "idade", "label": "Idade"}, {"key": "altura", "label": "Altura"}, {"key": "peso", "label": "Peso atual"}, {"key": "posicao", "label": "Posição que joga"}]}, {"titulo": "⚽ Perfil como atleta", "campos": [{"key": "qual_tecnicas", "label": "Quais você considera suas principais qualidades técnicas?"}, {"key": "qual_fisicas", "label": "Quais suas principais qualidades físicas?"}, {"key": "melhorar_tecnico", "label": "Quais pontos técnicos você acha que precisa melhorar?"}, {"key": "melhorar_fisico", "label": "Quais pontos físicos você sente que precisa evoluir?"}]}, {"titulo": "🏥 Saúde e histórico", "campos": [{"key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?"}, {"key": "dor", "label": "Sente alguma dor atualmente?"}, {"key": "cirurgia", "label": "Já fez cirurgia?"}, {"key": "problema_saude", "label": "Possui algum problema de saúde ou limitação?"}]}, {"titulo": "🏋️ Rotina e treino", "campos": [{"key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz?"}, {"key": "treinos_extras", "label": "Além dos dois dias de personal, consegue treinar nos outros dias? Se sim, quantos?"}]}, {"titulo": "🥗 Hábitos", "campos": [{"key": "alimentacao", "label": "Como está sua alimentação hoje?"}, {"key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?"}]}, {"titulo": "🎯 Objetivo", "campos": [{"key": "objetivo", "label": "Qual seu principal objetivo com o treino?"}]}, {"titulo": "💳 Organização", "campos": [{"key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal"}]}, {"titulo": "📝 Observações", "campos": [{"key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?"}]}]};
+const LABELS = {
+  "personal": [
+    {
+      "titulo": "👤 Dados pessoais",
+      "campos": [
+        { "key": "nome", "label": "Nome completo" },
+        { "key": "celular", "label": "Celular" },
+        { "key": "email", "label": "E-mail" }
+      ]
+    },
+    {
+      "titulo": "📊 Dados físicos",
+      "campos": [
+        { "key": "modalidade", "label": "Modalidade" },
+        { "key": "idade", "label": "Idade" },
+        { "key": "altura", "label": "Altura" },
+        { "key": "peso", "label": "Peso atual" },
+        { "key": "profissao", "label": "Profissão" }
+      ]
+    },
+    {
+      "titulo": "🏃 Perfil físico e estilo de vida",
+      "campos": [
+        { "key": "atividade_atual", "label": "Você pratica alguma atividade física atualmente? Se sim, qual(is)?" },
+        { "key": "condicionamento", "label": "Como classificaria seu condicionamento físico hoje?" },
+        { "key": "pontos_fortes", "label": "Quais você considera seus principais pontos fortes fisicamente?" },
+        { "key": "pontos_melhorar", "label": "Quais pontos você sente que precisa melhorar?" }
+      ]
+    },
+    {
+      "titulo": "🏥 Saúde e histórico",
+      "campos": [
+        { "key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?" },
+        { "key": "dor", "label": "Sente alguma dor ou desconforto atualmente?" },
+        { "key": "cirurgia", "label": "Já realizou alguma cirurgia?" },
+        { "key": "problema_saude", "label": "Possui algum problema de saúde diagnosticado?" },
+        { "key": "medicamento", "label": "Faz uso de algum medicamento contínuo?" },
+        { "key": "restricao", "label": "Possui alguma restrição médica para exercícios físicos?" }
+      ]
+    },
+    {
+      "titulo": "🏋️ Rotina e treino",
+      "campos": [
+        { "key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz e há quanto tempo?" },
+        { "key": "dias_semana", "label": "Quantos dias por semana consegue treinar?" },
+        { "key": "tempo_treino", "label": "Quanto tempo você tem disponível por treino?" },
+        { "key": "local_treino", "label": "Onde pretende treinar?" }
+      ]
+    },
+    {
+      "titulo": "🥗 Hábitos",
+      "campos": [
+        { "key": "alimentacao", "label": "Como está sua alimentação hoje? Está em dieta?" },
+        { "key": "refeicoes", "label": "Quantas refeições faz por dia, em média?" },
+        { "key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?" },
+        { "key": "sono_qualidade", "label": "Como avalia sua qualidade de sono?" },
+        { "key": "agua", "label": "Quantos litros de água costuma beber por dia?" },
+        { "key": "alcool", "label": "Consome bebidas alcoólicas? Com qual frequência?" },
+        { "key": "nicotina", "label": "Você fuma ou utiliza algum produto com nicotina?" }
+      ]
+    },
+    {
+      "titulo": "🎯 Objetivos",
+      "campos": [
+        { "key": "objetivo", "label": "Qual seu principal objetivo com o treino?" },
+        { "key": "meta", "label": "Existe alguma meta específica que deseja alcançar?" }
+      ]
+    },
+    {
+      "titulo": "💳 Organização",
+      "campos": [
+        { "key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal" }
+      ]
+    },
+    {
+      "titulo": "📝 Observações",
+      "campos": [
+        { "key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?" }
+      ]
+    }
+  ],
+  "atleta": [
+    {
+      "titulo": "👤 Dados pessoais",
+      "campos": [
+        { "key": "nome", "label": "Nome completo" },
+        { "key": "celular", "label": "Celular" },
+        { "key": "email", "label": "E-mail" }
+      ]
+    },
+    {
+      "titulo": "📊 Dados físicos",
+      "campos": [
+        { "key": "idade", "label": "Idade" },
+        { "key": "altura", "label": "Altura" },
+        { "key": "peso", "label": "Peso atual" },
+        { "key": "posicao", "label": "Posição que joga" }
+      ]
+    },
+    {
+      "titulo": "⚽ Perfil como atleta",
+      "campos": [
+        { "key": "qual_tecnicas", "label": "Quais você considera suas principais qualidades técnicas?" },
+        { "key": "qual_fisicas", "label": "Quais suas principais qualidades físicas?" },
+        { "key": "melhorar_tecnico", "label": "Quais pontos técnicos você acha que precisa melhorar?" },
+        { "key": "melhorar_fisico", "label": "Quais pontos físicos você sente que precisa evoluir?" }
+      ]
+    },
+    {
+      "titulo": "🏥 Saúde e histórico",
+      "campos": [
+        { "key": "lesao", "label": "Já teve alguma lesão? Se sim, qual(is)?" },
+        { "key": "dor", "label": "Sente alguma dor atualmente?" },
+        { "key": "cirurgia", "label": "Já fez cirurgia?" },
+        { "key": "problema_saude", "label": "Possui algum problema de saúde ou limitação?" }
+      ]
+    },
+    {
+      "titulo": "🏋️ Rotina e treino",
+      "campos": [
+        { "key": "ja_treina", "label": "Você já treina atualmente? Se sim, o que faz?" },
+        { "key": "treinos_extras", "label": "Além dos dois dias de personal, consegue treinar nos outros dias? Se sim, quantos?" }
+      ]
+    },
+    {
+      "titulo": "🥗 Hábitos",
+      "campos": [
+        { "key": "alimentacao", "label": "Como está sua alimentação hoje?" },
+        { "key": "sono_horas", "label": "Quantas horas você dorme por noite, em média?" }
+      ]
+    },
+    {
+      "titulo": "🎯 Objetivo",
+      "campos": [
+        { "key": "objetivo", "label": "Qual seu principal objetivo com o treino?" }
+      ]
+    },
+    {
+      "titulo": "💳 Organização",
+      "campos": [
+        { "key": "dia_pagamento", "label": "Melhor dia do mês para o pagamento do personal" }
+      ]
+    },
+    {
+      "titulo": "📝 Observações",
+      "campos": [
+        { "key": "observacoes", "label": "Tem mais alguma informação importante que eu deva saber?" }
+      ]
+    }
+  ]
+};
+
 // =============================================================
 //  admin.js — login (Firebase Auth) + painel completo
 // =============================================================
@@ -50,12 +201,8 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
 
   try {
     await App.auth.signInWithEmailAndPassword(email, pass);
-    // sucesso: onAuthStateChanged assume daqui
   } catch (err) {
-    // log completo para depuração (você vê no F12 -> Console)
     console.error("[Login] Falha na autenticação:", err.code, err.message, err);
-
-    // mensagem amigável + dica de correção por código
     const info = {
       "auth/invalid-credential":      ["E-mail ou senha incorretos.", "Confira a senha. Se esqueceu, redefina em Authentication → Users → ⋮ → Redefinir senha."],
       "auth/invalid-login-credentials": ["E-mail ou senha incorretos.", "Confira a senha ou redefina no console (Authentication → Users)."],
@@ -85,7 +232,6 @@ function entrarPainel(user) {
   loginView.hidden = true;
   panelView.hidden = false;
   navRight.hidden = false;
-  // reforço: garante a troca mesmo se o CSS antigo estiver em cache
   loginView.style.display = "none";
   panelView.style.display = "block";
   navRight.style.display = "flex";
@@ -113,7 +259,6 @@ document.querySelectorAll(".tab").forEach(t => {
 
 // ================= CARREGAR DADOS =================
 function carregarTudo() {
-  // alunos (personal + atleta) em tempo real
   App.db.ref("alunos").on("value", snap => {
     const v = snap.val() || {};
     ALUNOS = [];
@@ -137,7 +282,6 @@ function carregarTudo() {
   App.db.ref("config/precos").on("value", snap => {
     PRECOS = snap.val() || {};
     const f = PRECOS.personalFaixas || {};
-    // compatibilidade: se existia só "personal" (valor antigo), usa como faixa1
     document.getElementById("precoFaixa1").value = f.faixa1 || PRECOS.personal || "";
     document.getElementById("precoFaixa2").value = f.faixa2 || "";
     document.getElementById("precoFaixa3").value = f.faixa3 || "";
@@ -152,7 +296,6 @@ function carregarTudo() {
   }, erroLeitura);
 }
 
-// mostra um aviso no topo do painel se a leitura for bloqueada
 let avisoMostrado = false;
 function erroLeitura(err) {
   console.error("[Painel] Erro ao ler dados:", err && err.code, err && err.message, err);
@@ -174,15 +317,12 @@ function erroLeitura(err) {
   main.insertBefore(div, main.firstChild);
 }
 
-// preço padrão conforme perfil (permite override por aluno em .valorMensal)
-// Faixa de preço do personal conforme dias/semana:
-// até 2 dias -> faixa1 | 3 dias -> faixa2 | 4 dias -> faixa3 | 5+ dias -> faixa4
 function faixaPorDias(dias) {
   const d = parseInt(dias, 10) || 0;
   if (d >= 5) return "faixa4";
   if (d === 4) return "faixa3";
   if (d === 3) return "faixa2";
-  return "faixa1";              // até 2 dias (inclui 1, 2 e vazio)
+  return "faixa1";
 }
 function rotuloFaixa(chave) {
   return {
@@ -193,16 +333,18 @@ function rotuloFaixa(chave) {
   }[chave] || "";
 }
 
-// preço do aluno: 1) override individual  2) faixa por dias (personal)  3) valor único (atleta)
+// Cálculo correto considerando se é Dupla ou Individual
 function valorDoAluno(a) {
   if (a.valorMensal != null && a.valorMensal !== "") return Number(a.valorMensal);
   if (a.perfil === "personal") {
-    const faixas = PRECOS.personalFaixas || {};
     const chave = faixaPorDias(a.dias_semana);
-    return Number(faixas[chave] || 0);
+    const isDupla = (a.modalidade || "").toLowerCase() === "dupla";
+    const tabela = isDupla ? (PRECOS.personalDuplaFaixas || {}) : (PRECOS.personalFaixas || {});
+    return Number(tabela[chave] || 0);
   }
   return Number(PRECOS.atleta || 0);
 }
+
 function diaVenc(a) {
   return a.dia_pagamento || "—";
 }
@@ -229,7 +371,6 @@ function alunosFiltrados() {
 }
 
 function renderAlunos() {
-  // KPIs
   const nP = ALUNOS.filter(a => a.perfil === "personal").length;
   const nA = ALUNOS.filter(a => a.perfil === "atleta").length;
   const seteDias = Date.now() - 7 * 864e5;
@@ -272,7 +413,6 @@ function renderAlunos() {
 
 function statusPagamento(a, pg) {
   if (pg && pg.status === "pago") return "pago";
-  // vencido se hoje já passou do dia de vencimento no mês atual
   const dia = parseInt(a.dia_pagamento, 10);
   if (dia && new Date().getDate() > dia) return "vencido";
   return "pendente";
@@ -314,13 +454,11 @@ function abrirFicha(ref) {
   grupos.forEach(g => {
     const linhas = g.campos.map(c => {
       const val = a[c.key];
-      const blank = (val == null || val === "");
       
-      // Renderiza inputs editáveis para cada campo da ficha do aluno
       if (c.key === "modalidade" && perfil === "personal") {
         return `<div class="qa"><div class="q">${esc(c.label)}</div>
           <div style="margin-top:4px"><select class="md-input" data-edit-key="${c.key}" style="width:100%;padding:8px;background:var(--input-bg, #1e222b);color:inherit;border:1px solid var(--border, #333);border-radius:6px">
-            <option value="Individual" ${val === "Individual" ? "selected" : ""}>Individual (1 aluno)</option>
+            <option value="Individual" ${val === "Individual" || !val ? "selected" : ""}>Individual (1 aluno)</option>
             <option value="Dupla" ${val === "Dupla" ? "selected" : ""}>Dupla (2 alunos)</option>
           </select></div></div>`;
       }
@@ -331,12 +469,13 @@ function abrirFicha(ref) {
     html += `<div class="modal-group"><h3>${esc(g.titulo)}</h3>${linhas}</div>`;
   });
 
-  // valor individual (override) — mostra a faixa aplicada automaticamente
   let infoFaixa = "";
   if (perfil === "personal") {
     const chave = faixaPorDias(a.dias_semana);
-    const auto = (PRECOS.personalFaixas || {})[chave] || 0;
-    infoFaixa = `Faixa automática: <b>${rotuloFaixa(chave)}</b> → ${moeda(auto)} (aluno respondeu ${esc(a.dias_semana || "—")} dia(s)/semana)`;
+    const isDupla = (a.modalidade || "").toLowerCase() === "dupla";
+    const tabela = isDupla ? (PRECOS.personalDuplaFaixas || {}) : (PRECOS.personalFaixas || {});
+    const auto = tabela[chave] || 0;
+    infoFaixa = `Faixa automática (${isDupla ? "Dupla" : "Individual"}): <b>${rotuloFaixa(chave)}</b> → ${moeda(auto)} (aluno respondeu ${esc(a.dias_semana || "—")} dia(s)/semana)`;
   } else {
     infoFaixa = `Valor padrão da consultoria: ${moeda(PRECOS.atleta || 0)}`;
   }
@@ -352,7 +491,6 @@ function abrirFicha(ref) {
     </div>
   </div>`;
 
-  // notas internas
   html += `<div class="modal-group"><h3>🗒️ Observações internas (só você vê)</h3>
     <textarea id="mdNota" placeholder="Anotações sobre o aluno, evolução, combinados…"></textarea>
     <div class="form-actions">
@@ -364,10 +502,8 @@ function abrirFicha(ref) {
   document.getElementById("mdBody").innerHTML = html;
   modalBack.classList.add("open");
 
-  // histórico de meses (últimos 6)
   renderPayHist(id, a);
 
-  // carregar nota
   App.db.ref("notas/" + id).once("value").then(s => {
     const n = s.val();
     document.getElementById("mdNota").value = (n && n.texto) || "";
@@ -418,7 +554,6 @@ function salvarFicha(perfil, id) {
   
   const up = {};
   
-  // Coleta todos os campos editáveis da ficha dinamicamente
   document.querySelectorAll(".md-input").forEach(input => {
     const key = input.dataset.editKey;
     if (key) {
@@ -432,9 +567,16 @@ function salvarFicha(perfil, id) {
     App.db.ref().update(up),
     App.db.ref("notas/" + id).set({ texto: nota, atualizadoEm: new Date().toISOString() })
   ]).then(() => {
-    msg.className = "form-msg ok"; msg.textContent = "Salvo com sucesso!";
-    setTimeout(() => msg.textContent = "", 1600);
-  }).catch(() => { msg.className = "form-msg err"; msg.textContent = "Erro ao salvar."; });
+    msg.className = "form-msg ok"; 
+    msg.textContent = "Salvo com sucesso!";
+    setTimeout(() => {
+      fecharFicha();
+      msg.textContent = "";
+    }, 800);
+  }).catch(() => { 
+    msg.className = "form-msg err"; 
+    msg.textContent = "Erro ao salvar."; 
+  });
 }
 
 // ================= ABA FINANCEIRO =================
@@ -489,7 +631,7 @@ function renderFinanceiro() {
     <td><span class="name">${esc(a.nome)}</span></td>
     <td><span class="pill ${a.perfil}">${a.perfil === "personal" ? "Personal" : "Atleta"}</span></td>
     <td>dia ${esc(a.dia_pagamento || "—")}</td>
-    <td>${moeda(valor)}${a.perfil === "personal" && (a.valorMensal == null || a.valorMensal === "") ? `<br><span class="hint">${esc(rotuloFaixa(faixaPorDias(a.dias_semana)))}</span>` : (a.valorMensal != null && a.valorMensal !== "" ? `<br><span class="hint">valor manual</span>` : "")}</td>
+    <td>${moeda(valor)}${a.perfil === "personal" && (a.valorMensal == null || a.valorMensal === "") ? `<br><span class="hint">${esc(rotuloFaixa(faixaPorDias(a.dias_semana)))} (${esc(a.modalidade || "Individual")})</span>` : (a.valorMensal != null && a.valorMensal !== "" ? `<br><span class="hint">valor manual</span>` : "")}</td>
     <td>${pillStatus(st)}</td>
     <td><button class="btn-sm ${pago ? "" : "solid"}" data-toggle="${a.id}">${pago ? "Desmarcar" : "Marcar pago"}</button></td>
   </tr>`).join("");
@@ -532,8 +674,8 @@ document.getElementById("btnSalvarPrecos").addEventListener("click", () => {
 document.getElementById("btnExport").addEventListener("click", () => {
   const lista = alunosFiltrados();
   if (!lista.length) return alert("Nada para exportar.");
-  const cols = ["perfil", "nome", "celular", "email", "idade", "altura", "peso", "objetivo", "dia_pagamento", "criadoEmISO"];
-  const cab = ["Perfil","Nome","Celular","Email","Idade","Altura","Peso","Objetivo","Dia pagamento","Recebido em"];
+  const cols = ["perfil", "nome", "celular", "email", "idade", "altura", "peso", "modalidade", "objetivo", "dia_pagamento", "criadoEmISO"];
+  const cab = ["Perfil","Nome","Celular","Email","Idade","Altura","Peso","Modalidade","Objetivo","Dia pagamento","Recebido em"];
   const linhas = lista.map(a => cols.map(c => {
     let v = a[c] == null ? "" : String(a[c]);
     v = v.replace(/"/g, '""');
