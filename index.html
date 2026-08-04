@@ -18,6 +18,62 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="css/style.css" />
+<style>
+  /* Estilos específicos para a seção de depoimentos/feedbacks profissionais */
+  .feedbacks {
+    background: var(--ink-2);
+    padding: 100px 0;
+  }
+  .feedbacks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .feedback-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .feedback-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  .feedback-stars {
+    color: #f59e0b;
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+  }
+  .feedback-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .feedback-author {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .feedback-author::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--lime, #10b981);
+    border-radius: 50%;
+  }
+</style>
 </head>
 <body>
 
@@ -31,6 +87,7 @@
     <nav class="nav-links" id="navLinks">
       <a href="#protocolo">Método</a>
       <a href="#servicos">O que ofereço</a>
+      <a href="#depoimentos">Depoimentos</a>
       <a href="atletas.html">Atletas</a>
       <a href="questionario.html">Questionário</a>
       <a href="#sobre">Sobre</a>
@@ -198,6 +255,64 @@
   </div>
 </section>
 
+<!-- ===== DEPOIMENTOS / FEEDBACKS ===== -->
+<section class="feedbacks" id="depoimentos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Depoimentos</span>
+      <h2>O que dizem os nossos alunos</h2>
+      <p>A credibilidade do nosso trabalho é refletida na evolução e na satisfação de quem confia no método.</p>
+    </div>
+
+    <div class="feedbacks-grid">
+      <!-- Feedback 1 -->
+      <div class="feedback-card reveal">
+        <div>
+          <div class="feedback-stars" aria-label="Avaliação 5 de 5 estrelas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p class="feedback-text">"Mateus é um excelente profissional, dedicado, atencioso e extremamente competente."</p>
+        </div>
+        <div class="feedback-author">Alex Silva</div>
+      </div>
+
+      <!-- Feedback 2 -->
+      <div class="feedback-card reveal">
+        <div>
+          <div class="feedback-stars" aria-label="Avaliação 5 de 5 estrelas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p class="feedback-text">"Mateus é excelente e muito profissional"</p>
+        </div>
+        <div class="feedback-author">Daniel Silva</div>
+      </div>
+
+      <!-- Feedback 3 -->
+      <div class="feedback-card reveal">
+        <div>
+          <div class="feedback-stars" aria-label="Avaliação 5 de 5 estrelas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p class="feedback-text">"Excelente profissional, educado e atencioso, eu recomendo."</p>
+        </div>
+        <div class="feedback-author">Luana Oliveira</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== SOBRE ===== -->
 <section id="sobre" style="background:var(--ink-2)">
   <div class="wrap sobre-grid">
@@ -268,6 +383,7 @@
         <div class="foot-links">
           <a href="#protocolo">Método</a>
           <a href="#servicos">O que ofereço</a>
+          <a href="#depoimentos">Depoimentos</a>
           <a href="atletas.html">Atletas de alto rendimento</a>
           <a href="#sobre">Sobre</a>
           <a href="#contato">Contato</a>
