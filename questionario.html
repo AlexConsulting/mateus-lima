@@ -219,6 +219,30 @@
         <textarea data-norm="raw" name="observacoes" placeholder="rotina de trabalho, nível de estresse, histórico, dificuldades, expectativas…"></textarea>
       </div>
     </div>
+
+    <!-- CAMPO ADICIONADO: CUPOM DE DESCONTO RELÂMPAGO -->
+    <div class="form-section">
+      <h2><span aria-hidden="true">🎟️</span> Cupom de Desconto</h2>
+      <div class="field">
+        <label>Possui Cupom de Desconto Relâmpago? (Opcional)</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="cupomInputPersonal" class="form-control" placeholder="Digite o código do cupom" style="flex: 1;" />
+          <button type="button" class="btn btn-sm" id="btnAplicarCupomPersonal">Aplicar</button>
+        </div>
+        <small id="cupomFeedbackPersonal" style="display: block; margin-top: 6px;"></small>
+      </div>
+    </div>
+
+    <!-- CAMPO ADICIONADO: TERMO PAR-Q / ANAMNESE DIGITAL -->
+    <div class="form-section">
+      <div class="field" style="display: flex; align-items: flex-start; gap: 10px;">
+        <input type="checkbox" id="termoResponsabilidadePersonal" required style="margin-top: 4px;" />
+        <label for="termoResponsabilidadePersonal" style="font-size: 0.9rem; cursor: pointer;">
+          Declaro que as informações de saúde preenchidas são verdadeiras e assumo total responsabilidade pela prática de atividades físicas propostas (Termo PAR-Q / Anamnese digital). <span class="req">*</span>
+        </label>
+      </div>
+    </div>
+
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Enviar questionário</button>
         <span class="form-msg" data-msg></span>
@@ -351,6 +375,30 @@
         <textarea data-norm="raw" name="observacoes" placeholder="rotina, jogos, dificuldades…"></textarea>
       </div>
     </div>
+
+    <!-- CAMPO ADICIONADO: CUPOM DE DESCONTO RELÂMPAGO -->
+    <div class="form-section">
+      <h2><span aria-hidden="true">🎟️</span> Cupom de Desconto</h2>
+      <div class="field">
+        <label>Possui Cupom de Desconto Relâmpago? (Opcional)</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="cupomInputAtleta" class="form-control" placeholder="Digite o código do cupom" style="flex: 1;" />
+          <button type="button" class="btn btn-sm" id="btnAplicarCupomAtleta">Aplicar</button>
+        </div>
+        <small id="cupomFeedbackAtleta" style="display: block; margin-top: 6px;"></small>
+      </div>
+    </div>
+
+    <!-- CAMPO ADICIONADO: TERMO PAR-Q / ANAMNESE DIGITAL -->
+    <div class="form-section">
+      <div class="field" style="display: flex; align-items: flex-start; gap: 10px;">
+        <input type="checkbox" id="termoResponsabilidadeAtleta" required style="margin-top: 4px;" />
+        <label for="termoResponsabilidadeAtleta" style="font-size: 0.9rem; cursor: pointer;">
+          Declaro que as informações de saúde preenchidas são verdadeiras e assumo total responsabilidade pela prática de atividades físicas propostas (Termo PAR-Q / Anamnese digital). <span class="req">*</span>
+        </label>
+      </div>
+    </div>
+
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Enviar questionário</button>
         <span class="form-msg" data-msg></span>

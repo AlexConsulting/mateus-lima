@@ -53,6 +53,7 @@
   <div class="tabs">
     <button class="tab active" data-tab="alunos">Alunos</button>
     <button class="tab" data-tab="financeiro">Financeiro</button>
+    <button class="tab" data-tab="cupons">Cupons</button>
     <button class="tab" data-tab="config">Configurações</button>
   </div>
 
@@ -79,9 +80,9 @@
     <div class="table-wrap">
       <table id="tblAlunos">
         <thead><tr>
-          <th>Nome</th><th>Perfil</th><th>Contato</th><th>Objetivo</th><th>Mês atual</th><th>Recebido em</th><th></th>
+          <th>Nome</th><th>Perfil</th><th>Contato</th><th>Objetivo</th><th>Cupom</th><th>Mês atual</th><th>Recebido em</th><th></th>
         </tr></thead>
-        <tbody><tr><td colspan="7" class="center-load"><span class="loader"></span> Carregando…</td></tr></tbody>
+        <tbody><tr><td colspan="8" class="center-load"><span class="loader"></span> Carregando…</td></tr></tbody>
       </table>
     </div>
   </section>
@@ -102,16 +103,60 @@
         <input type="month" id="finMes" style="width:auto" />
       </label>
       <div class="spacer"></div>
+      <button class="btn-sm" id="btnWhatsMassa" style="background:var(--lime);color:#0A1220;font-weight:600">💬 Cobrar Pendentes no WhatsApp</button>
       <span class="who" id="finResumoMes"></span>
     </div>
 
     <div class="table-wrap">
       <table id="tblFin">
         <thead><tr>
-          <th>Aluno</th><th>Perfil</th><th>Vence dia</th><th>Valor</th><th>Status</th><th></th>
+          <th>Aluno</th><th>Perfil</th><th>Vence dia</th><th>Valor</th><th>Status</th><th>Ações</th>
         </tr></thead>
         <tbody><tr><td colspan="6" class="center-load"><span class="loader"></span> Carregando…</td></tr></tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- ---------- ABA CUPONS ---------- -->
+  <section class="tabpane" id="tab-cupons">
+    <div class="panel" style="margin-bottom:20px">
+      <h2 style="font-family:'Archivo';font-weight:700;font-size:1.2rem;margin-bottom:6px">Gerador de Cupons Relâmpago</h2>
+      <p class="hint" style="margin-bottom:22px">Crie cupons de desconto temporários com validade restrita (até 5 horas ou uso único) para campanhas rápidas.</p>
+      
+      <form id="formCupom">
+        <div class="price-row" style="margin-bottom:16px">
+          <div class="field">
+            <label>Código do Cupom</label>
+            <input type="text" id="cupomCodigo" required placeholder="EX: RELAMPAGO15" style="text-transform:uppercase" />
+          </div>
+          <div class="field">
+            <label>Desconto (%)</label>
+            <input type="number" id="cupomDesconto" min="1" max="100" required placeholder="15" />
+          </div>
+        </div>
+        <div class="price-row" style="margin-bottom:24px">
+          <div class="field">
+            <label>Validade (Horas)</label>
+            <input type="number" id="cupomValidadeHoras" min="1" max="24" value="5" required />
+          </div>
+          <div class="field" style="display:flex;align-items:flex-end">
+            <button type="submit" class="btn btn-primary" style="width:100%">Gerar Cupom Relâmpago</button>
+          </div>
+        </div>
+        <span class="form-msg" id="cupomMsg"></span>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h3 style="font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Cupons Ativos / Histórico</h3>
+      <div class="table-wrap">
+        <table id="tblCupons">
+          <thead><tr>
+            <th>Código</th><th>Desconto</th><th>Expira em</th><th>Status</th><th></th>
+          </tr></thead>
+          <tbody><tr><td colspan="5" class="center-load">Nenhum cupom gerado.</td></tr></tbody>
+        </table>
+      </div>
     </div>
   </section>
 
