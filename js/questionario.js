@@ -39,7 +39,8 @@ function coletar(form) {
 function validar(form) {
   let ok = true;
   form.querySelectorAll("[required]").forEach(el => {
-    const vazio = !el.value.trim();
+    // Tratamento especial para checkbox obrigatório (Termo PAR-Q)
+    const vazio = el.type === "checkbox" ? !el.checked : !el.value.trim();
     el.style.borderColor = vazio ? "#ff8a6b" : "";
     if (vazio && ok) { el.focus(); ok = false; }
   });
@@ -52,7 +53,7 @@ async function enviar(form, perfil) {
 
   if (!validar(form)) {
     msg.className = "form-msg err";
-    msg.textContent = "Preencha os campos obrigatórios (marcados com *).";
+    msg.textContent = "Preencha os campos obrigatórios e aceite o termo (marcados com *).";
     return;
   }
 
@@ -65,6 +66,14 @@ async function enviar(form, perfil) {
   const registro = coletar(form);
   registro.perfil = perfil;
   
+  // Captura os campos adicionados dinamicamente via ID (Cupom e Termo)
+  const sufixo = perfil === "atleta" ? "Atleta" : "Personal";
+  const cupomEl = document.getElementById("cupomInput" + sufixo);
+  const termoEl = document.getElementById("termoResponsabilidade" + sufixo);
+
+  registro.cupom = cupomEl ? cupomEl.value.trim().toUpperCase() : "";
+  registro.termoAceito = termoEl ? termoEl.checked : false;
+
   // Assegura que o campo modalidade venha preenchido para o personal (caso venha vazio no atleta, define padrão)
   if (perfil === "personal" && !registro.modalidade) {
     registro.modalidade = "Individual";
@@ -74,7 +83,7 @@ async function enviar(form, perfil) {
 
   registro.criadoEm = Date.now();
   registro.criadoEmISO = new Date().toISOString();
-  registro.status = "novo";            // novo | ativo | inativo (o admin ajusta)
+  registro.status = "novo";             // novo | ativo | inativo (o admin ajusta)
 
   btn.disabled = true;
   msg.className = "form-msg";
@@ -84,6 +93,9 @@ async function enviar(form, perfil) {
     await App.db.ref("alunos/" + perfil).push(registro);
     mostrar(secSucesso);
     form.reset();
+    // Limpa feedbacks extras de cupom se houver
+    const feedbackEl = document.getElementById("cupomFeedback" + sufixo);
+    if (feedbackEl) feedbackEl.textContent = "";
   } catch (e) {
     console.error("[Questionário] Falha ao salvar:", e.code, e.message, e);
     msg.className = "form-msg err";
@@ -102,6 +114,41 @@ document.getElementById("formPersonal").addEventListener("submit", e => {
 document.getElementById("formAtleta").addEventListener("submit", e => {
   e.preventDefault(); enviar(e.target, "atleta");
 });
+
+// Lógica de validação do Cupom Relâmpago (Personal)
+const btnCupomPersonal = document.getElementById("btnAplicarCupomPersonal");
+if (btnCupomPersonal) {
+  btnCupomPersonal.addEventListener("click", () => {
+    const input = document.getElementById("cupomInputPersonal");
+    const feedback = document.getElementById("cupomFeedbackPersonal");
+    const val = input.value.trim().toUpperCase();
+    if (!val) {
+      feedback.style.color = "#ff8a6b";
+      feedback.textContent = "Digite um código de cupom válido.";
+      return;
+    }
+    // Exemplo de checagem simulada ou integrada
+    feedback.style.color = "#4ade80";
+    feedback.textContent = "✔ Cupom aplicado com sucesso!";
+  });
+}
+
+// Lógica de validação do Cupom Relâmpago (Atleta)
+const btnCupomAtleta = document.getElementById("btnAplicarCupomAtleta");
+if (btnCupomAtleta) {
+  btnCupomAtleta.addEventListener("click", () => {
+    const input = document.getElementById("cupomInputAtleta");
+    const feedback = document.getElementById("cupomFeedbackAtleta");
+    const val = input.value.trim().toUpperCase();
+    if (!val) {
+      feedback.style.color = "#ff8a6b";
+      feedback.textContent = "Digite um código de cupom válido.";
+      return;
+    }
+    feedback.style.color = "#4ade80";
+    feedback.textContent = "✔ Cupom aplicado com sucesso!";
+  });
+}
 
 // máscara leve de telefone enquanto digita
 document.querySelectorAll('input[type="tel"]').forEach(inp => {

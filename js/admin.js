@@ -162,7 +162,8 @@ const navRight  = document.getElementById("navRight");
 // ---------- estado ----------
 let ALUNOS = [];        // [{id, perfil, ...campos}]
 let PAGAMENTOS = {};    // { alunoId: { "YYYY-MM": {status, valor, pagoEm} } }
-let PRECOS = { personal: 0, atleta: 0 };
+let CUPONS = {};        // { cupomId: { ... } }
+let PRECOS = { personal: 0, atleta: 0, personalDuplaFaixas: {}, personalFaixas: {} };
 let filtroPerfil = "todos";
 
 // ================= AUTENTICAÇÃO =================
@@ -213,7 +214,7 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
       "auth/too-many-requests":       ["Muitas tentativas.", "Aguarde alguns minutos antes de tentar de novo."],
       "auth/operation-not-allowed":   ["Login por e-mail/senha desativado.", "Ative em Authentication → Sign-in method → E-mail/senha."],
       "auth/unauthorized-domain":     ["Domínio não autorizado.", "Adicione o domínio deste site em Authentication → Settings → Domínios autorizados."],
-      "auth/network-request-failed":  ["Falha de conexão.", "Verifique a internet e se o site está no ar (https)."],
+      "auth/network-request-failed":  ["Falha de conexão.", "Verifique a internet e se o site está no ar (https).."],
       "auth/api-key-not-valid":       ["Chave de API inválida.", "Revise a apiKey em js/firebase-config.js."],
       "auth/configuration-not-found":["Configuração não encontrada.", "Ative o método E-mail/senha em Authentication → Sign-in method."]
     };
@@ -279,6 +280,12 @@ function carregarTudo() {
     renderFinanceiro();
   }, erroLeitura);
 
+  App.db.ref("cupons").on("value", snap => {
+    CUPONS = snap.val() || {};
+    renderCupons();
+    renderAlunos();
+  }, erroLeitura);
+
   App.db.ref("config/precos").on("value", snap => {
     PRECOS = snap.val() || {};
     const f = PRECOS.personalFaixas || {};
@@ -333,7 +340,6 @@ function rotuloFaixa(chave) {
   }[chave] || "";
 }
 
-// Cálculo correto considerando se é Dupla ou Individual
 function valorDoAluno(a) {
   if (a.valorMensal != null && a.valorMensal !== "") return Number(a.valorMensal);
   if (a.perfil === "personal") {
@@ -383,7 +389,7 @@ function renderAlunos() {
   const lista = alunosFiltrados();
   const tb = document.querySelector("#tblAlunos tbody");
   if (!lista.length) {
-    tb.innerHTML = '<tr><td colspan="7" class="empty">Nenhum aluno encontrado.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="8" class="empty">Nenhum aluno encontrado.</td></tr>';
     return;
   }
   const mes = mesAtual();
@@ -391,11 +397,13 @@ function renderAlunos() {
     const pg = (PAGAMENTOS[a.id] && PAGAMENTOS[a.id][mes]) || null;
     const status = statusPagamento(a, pg);
     const data = a.criadoEmISO ? new Date(a.criadoEmISO).toLocaleDateString("pt-BR") : "—";
+    const cupomUsado = a.cupomUsado ? `<span class="pill" style="background:var(--card);border:1px solid var(--border)">${esc(a.cupomUsado)}</span>` : '<span style="color:var(--muted)">—</span>';
     return `<tr>
       <td><span class="name">${esc(a.nome)}</span></td>
       <td><span class="pill ${a.perfil}">${a.perfil === "personal" ? "Personal" : "Atleta"}</span></td>
       <td>${esc(a.celular || "—")}<br><span class="hint">${esc(a.email || "")}</span></td>
       <td>${esc((a.objetivo || "—").slice(0, 46))}</td>
+      <td>${cupomUsado}</td>
       <td>${pillStatus(status)}</td>
       <td>${data}</td>
       <td style="white-space:nowrap">
@@ -429,6 +437,70 @@ function excluirAluno(ref) {
   App.db.ref(`alunos/${perfil}/${id}`).remove();
   App.db.ref(`pagamentos/${id}`).remove();
   App.db.ref(`notas/${id}`).remove();
+}
+
+// ================= ABA CUPONS =================
+document.getElementById("formCupom").addEventListener("submit", e => {
+  e.preventDefault();
+  const codigo = document.getElementById("cupomCodigo").value.trim().toUpperCase();
+  const desconto = Number(document.getElementById("cupomDesconto").value);
+  const horas = Number(document.getElementById("cupomValidadeHoras").value);
+  const msg = document.getElementById("cupomMsg");
+
+  if (!codigo || !desconto || !horas) return;
+
+  const expiraEm = Date.now() + horas * 3600 * 1000;
+  const cupomId = codigo.toLowerCase();
+
+  App.db.ref(`cupons/${cupomId}`).set({
+    codigo,
+    desconto,
+    expiraEm,
+    criadoEm: Date.now(),
+    ativo: true
+  }).then(() => {
+    msg.className = "form-msg ok";
+    msg.textContent = `Cupom ${codigo} gerado com sucesso!`;
+    document.getElementById("formCupom").reset();
+    document.getElementById("cupomValidadeHoras").value = "5";
+    setTimeout(() => msg.textContent = "", 3000);
+  }).catch(err => {
+    console.error(err);
+    msg.className = "form-msg err";
+    msg.textContent = "Erro ao gerar cupom.";
+  });
+});
+
+function renderCupons() {
+  const tb = document.querySelector("#tblCupons tbody");
+  const chaves = Object.keys(CUPONS);
+  if (!chaves.length) {
+    tb.innerHTML = '<tr><td colspan="5" class="empty">Nenhum cupom gerado.</td></tr>';
+    return;
+  }
+
+  tb.innerHTML = chaves.map(k => {
+    const c = CUPONS[k];
+    const expirado = Date.now() > c.expiraEm;
+    const ativo = c.ativo && !expirado;
+    const expStr = new Date(c.expiraEm).toLocaleString("pt-BR");
+    return `<tr>
+      <td><b>${esc(c.codigo)}</b></td>
+      <td>${c.desconto}%</td>
+      <td>${expStr}</td>
+      <td><span class="pill ${ativo ? "pago" : "vencido"}">${ativo ? "Ativo" : "Expirado/Inativo"}</span></td>
+      <td><button class="icon-btn danger" title="Desativar/Excluir" data-del-cupom="${k}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button></td>
+    </tr>`;
+  }).join("");
+
+  tb.querySelectorAll("[data-del-cupom]").forEach(b => {
+    b.addEventListener("click", () => {
+      const id = b.dataset.delCupom;
+      if (confirm("Deseja remover este cupom?")) {
+        App.db.ref(`cupons/${id}`).remove();
+      }
+    });
+  });
 }
 
 // ================= FICHA (MODAL) =================
@@ -581,11 +653,28 @@ function salvarFicha(perfil, id) {
 
 // ================= ABA FINANCEIRO =================
 const finMes = document.getElementById("finMes");
-finMes.value = mesAtual();
-finMes.addEventListener("change", renderFinanceiro);
+if (!finMes.value) {
+  finMes.value = mesAtual();
+}
+
+// Ouvir eventos para atualizar a tela ao mudar o mês no input
+["change", "input"].forEach(evt => {
+  finMes.addEventListener(evt, () => {
+    renderFinanceiro();
+  });
+});
+
+function obterMesSelecionado() {
+  // Garante leitura correta do input tipo "month" (YYYY-MM). 
+  // Se o input estiver vazio ou inválido, usa o mês atual.
+  if (finMes.value && /^\d{4}-\d{2}$/.test(finMes.value)) {
+    return finMes.value;
+  }
+  return mesAtual();
+}
 
 function renderFinanceiro() {
-  const mes = finMes.value || mesAtual();
+  const mes = obterMesSelecionado();
   let recebido = 0, aReceber = 0, previsto = 0, inadimplentes = 0;
   const alertas = [];
   const hoje = new Date().getDate();
@@ -593,10 +682,15 @@ function renderFinanceiro() {
   const linhas = ALUNOS.map(a => {
     const valor = valorDoAluno(a);
     previsto += valor;
-    const pg = (PAGAMENTOS[a.id] && PAGAMENTOS[a.id][mes]) || null;
+    
+    // Leitura estrita isolada exclusivamente pela chave exata do mês do input (YYYY-MM)
+    const dadosPagamentoAluno = PAGAMENTOS[a.id];
+    const pg = (dadosPagamentoAluno && typeof dadosPagamentoAluno === "object") ? dadosPagamentoAluno[mes] : null;
     const pago = pg && pg.status === "pago";
-    if (pago) recebido += (pg.valor != null ? Number(pg.valor) : valor);
-    else {
+
+    if (pago) {
+      recebido += (pg.valor != null ? Number(pg.valor) : valor);
+    } else {
       aReceber += valor;
       const dia = parseInt(a.dia_pagamento, 10);
       const venceHoje = dia === hoje;
@@ -620,7 +714,9 @@ function renderFinanceiro() {
   if (alertas.length && mes === mesAtual()) {
     boxAl.hidden = false;
     boxAl.innerHTML = "⏰ <b>Vencimentos próximos:</b> " + alertas.map(esc).join(" · ");
-  } else boxAl.hidden = true;
+  } else if (boxAl) {
+    boxAl.hidden = true;
+  }
 
   const tb = document.querySelector("#tblFin tbody");
   if (!linhas.length) {
@@ -635,21 +731,56 @@ function renderFinanceiro() {
     <td>${pillStatus(st)}</td>
     <td><button class="btn-sm ${pago ? "" : "solid"}" data-toggle="${a.id}">${pago ? "Desmarcar" : "Marcar pago"}</button></td>
   </tr>`).join("");
-
-  tb.querySelectorAll("[data-toggle]").forEach(btn =>
-    btn.addEventListener("click", () => {
-      const a = ALUNOS.find(x => x.id === btn.dataset.toggle);
-      const pg = (PAGAMENTOS[a.id] && PAGAMENTOS[a.id][mes]) || null;
-      const novo = !(pg && pg.status === "pago");
-      togglePagamento(a.id, a, mes, novo);
-    }));
 }
+
+// Evento global fixo na tabela (Event Delegation) para alternar o status do mês selecionado
+document.querySelector("#tblFin tbody").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-toggle]");
+  if (!btn) return;
+
+  const mes = obterMesSelecionado();
+  const a = ALUNOS.find(x => x.id === btn.dataset.toggle);
+  const dadosPagamentoAluno = PAGAMENTOS[a.id];
+  const pg = (dadosPagamentoAluno && typeof dadosPagamentoAluno === "object") ? dadosPagamentoAluno[mes] : null;
+  const novo = !(pg && pg.status === "pago");
+
+  togglePagamento(a.id, a, mes, novo).then(() => {
+    renderFinanceiro();
+  });
+});
+
+document.getElementById("btnWhatsMassa").addEventListener("click", () => {
+  const mes = obterMesSelecionado();
+  const pendentes = ALUNOS.filter(a => {
+    const dadosPagamentoAluno = PAGAMENTOS[a.id];
+    const pg = (dadosPagamentoAluno && typeof dadosPagamentoAluno === "object") ? dadosPagamentoAluno[mes] : null;
+    const pago = pg && pg.status === "pago";
+    return !pago && a.celular;
+  });
+
+  if (!pendentes.length) {
+    alert("Nenhum aluno com pagamento pendente e celular cadastrado para este mês.");
+    return;
+  }
+
+  let textoBase = prompt("Digite a mensagem de cobrança (use *Nome* se quiser):", "Olá, tudo bem? Passando para lembrar sobre o pagamento da consultoria deste mês. Qualquer dúvida estou à disposição!");
+  if (textoBase === null) return;
+
+  const aluno = pendentes[0];
+  let tel = aluno.celular.replace(/\D/g, "");
+  if (!tel.startsWith("55")) tel = "55" + tel;
+  const msgFinal = encodeURIComponent(`Olá ${aluno.nome}, ${textoBase}`);
+  window.open(`https://api.whatsapp.com/send?phone=${tel}&text=${msgFinal}`, "_blank");
+});
 
 // ================= CONFIG =================
 document.getElementById("btnSalvarPrecos").addEventListener("click", () => {
   const msg = document.getElementById("cfgMsg");
   const num = id => Number(document.getElementById(id).value) || 0;
-  const dados = {
+
+  const novosPrecos = {
+    personal: num("precoFaixa1"),
+    atleta: num("precoAtleta"),
     personalFaixas: {
       faixa1: num("precoFaixa1"),
       faixa2: num("precoFaixa2"),
@@ -661,32 +792,45 @@ document.getElementById("btnSalvarPrecos").addEventListener("click", () => {
       faixa2: num("precoDuplaFaixa2"),
       faixa3: num("precoDuplaFaixa3"),
       faixa4: num("precoDuplaFaixa4")
-    },
-    atleta: num("precoAtleta")
+    }
   };
-  App.db.ref("config/precos").set(dados).then(() => {
-    msg.className = "form-msg ok"; msg.textContent = "Valores salvos!";
-    setTimeout(() => msg.textContent = "", 1800);
-  }).catch(() => { msg.className = "form-msg err"; msg.textContent = "Erro ao salvar."; });
+
+  App.db.ref("config/precos").set(novosPrecos).then(() => {
+    msg.className = "form-msg ok";
+    msg.textContent = "Preços salvos com sucesso!";
+    setTimeout(() => msg.textContent = "", 3000);
+  }).catch(err => {
+    console.error(err);
+    msg.className = "form-msg err";
+    msg.textContent = "Erro ao salvar preços.";
+  });
 });
 
-// ================= EXPORTAR CSV =================
-document.getElementById("btnExport").addEventListener("click", () => {
-  const lista = alunosFiltrados();
-  if (!lista.length) return alert("Nada para exportar.");
-  const cols = ["perfil", "nome", "celular", "email", "idade", "altura", "peso", "modalidade", "objetivo", "dia_pagamento", "criadoEmISO"];
-  const cab = ["Perfil","Nome","Celular","Email","Idade","Altura","Peso","Modalidade","Objetivo","Dia pagamento","Recebido em"];
-  const linhas = lista.map(a => cols.map(c => {
-    let v = a[c] == null ? "" : String(a[c]);
-    v = v.replace(/"/g, '""');
-    return `"${v}"`;
-  }).join(";"));
-  const csv = "\uFEFF" + cab.join(";") + "\n" + linhas.join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `alunos-${filtroPerfil}-${mesAtual()}.csv`;
-  link.click();
-  URL.revokeObjectURL(url);
-});
+// ================= UTILITÁRIOS =================
+function mesAtual() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+}
+
+function rotuloMes(strAnoMes) {
+  if (!strAnoMes) return "";
+  const [ano, mes] = strAnoMes.split("-");
+  const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  const mNome = meses[parseInt(mes, 10) - 1] || "";
+  return `${mNome} de ${ano}`;
+}
+
+function moeda(v) {
+  return Number(v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function esc(str) {
+  if (str === 0) return "0";
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
